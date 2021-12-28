@@ -169,8 +169,8 @@ Response body sample:
 422 - {"version": "2.0.3","message": "ndisNumber should be 9 digits starting with 43XXXXXXX."}
 400 - {"version": "2.0.3","message": "update Database was not successful"}
 422 - {"version": "2.0.3","message": "The participant has been validated and lastName, dob and ndisNumber cannot be changed."}
-404 - {   "version": "2.0.3","message":"The participant ID does not exist in the Database"}
-400 - {   "version": "2.0.3","message":"ParticipantId should be provided in the body."}
+404 - {"version": "2.0.3","message":"The participant ID does not exist in the Database"}
+400 - {"version": "2.0.3","message":"ParticipantId should be provided in the body."}
 500 - {"version": "2.0.3","message":"API name or method is not valid."}
 ```
 
