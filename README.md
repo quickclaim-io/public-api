@@ -48,7 +48,15 @@ x-api-key: YOUR_X_API-KEY
 
 ## Participant APIs
 ### GET /participant
-This function gets list of all participants you have registered in quickclaim app in your organisation.
+This function gets list of all participants you have registered in quickclaim app for your organisation.
+You can use the below field as the query parameters to filter your result.
+
+**Query parameters:**
+- ndisNumber: You can have the complete number (like 430000001) or part of the number (like 4300) as the input.
+- clientNumber: Is a string field and you can have it either for the complete string or part of the string as the input.
+- participantName: In filters participant first name and last name are concatenated and you. Using this filter you can search on the first name, last name or both.
+
+
 Request sample:
 ``` bash
 var options = { 
@@ -56,8 +64,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/participant',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+         org-id: 101,
+         x-api-key: XXXXXXXXXXXXXXX
         },
 };
 
@@ -65,39 +73,89 @@ var options = {
 Response body sample:
 ``` bash
 200- {
-  "version": "2.0.4",
+  "version": "2.2.2",
   "data": [
     {
-            "participantId": 238,
-            "orgId": 19,
-            "firstName": "Ross",
+            "participantId": 5,
+            "orgId": 1100,
+            "firstName": "Monica",
             "lastName": "Geller",
-            "clientNumber": "12345",
-            "ndisNumber": "430000001",
-            "createDate": "2021-10-12T04:07:14.000Z",
-            "modifyDate": "2021-10-12T04:07:14.000Z",
+            "clientNumber": "10010195",
+            "ndisNumber": "430043322",
+            "createDate": "2021-08-28T05:44:30.000Z",
+            "modifyDate": "2022-03-17T05:34:59.000Z",
+            "isDeleted": 0,
+            "defaultLocationName": "St Ives House",
+            "defaultLocationId": 2,
+            "ndisRego": 4050000001,
             "isValidated": 0,
-            "isDeleted": 0
+            "financialContactId": 1,
+            "financialContactCompany": "My Planner"
         },
         {
-            "participantId": 1,
-            "orgId": 19,
-            "firstName": "Ricky",
-            "lastName": "Martin",
-            "clientNumber": "1235",
-            "ndisNumber": "430000001",
-            "createDate": "2021-02-09T05:51:47.000Z",
-            "modifyDate": "2021-02-09T05:51:47.000Z",
+            "participantId": 3,
+            "orgId": 1100,
+            "firstName": "Ross",
+            "lastName": "Geller",
+            "clientNumber": "1236",
+            "ndisNumber": "430278965",
+            "createDate": "2021-02-09T05:53:39.000Z",
+            "modifyDate": "2022-03-17T22:26:42.000Z",
+            "isDeleted": 0,
+            "defaultLocationName": "St Ives House",
+            "defaultLocationId": 2,
+            "ndisRego": 4050000001,
             "isValidated": 0,
-            "isDeleted": 0
-        },
-        .
-        .
+            "financialContactId": 1,
+            "financialContactCompany": "My Planner"
+        }
   ]
 }
-400-{"version": "2.0.4", "message":"Read from Database was not successful"}
-500 - {"version": "2.0.3","message":"API name or method is not valid."}
+401 - {"version": "2.2.2", "message":"Unauthorised"}
+500 - {"version": "2.2.2","message":"API name or method is not valid."}
 ```
+Request sample with filer:
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/participant?clientNumber=12&participantName=mi',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        },
+};
+
+```
+Response body sample:
+``` bash
+200 - {
+    "version": "2.2.2",
+    "data": [
+        {
+            "participantId": 1,
+            "orgId": 1100,
+            "firstName": "Michael",
+            "lastName": "Jackson",
+            "clientNumber": "1235",
+            "ndisNumber": "430124567",
+            "createDate": "2021-02-09T05:51:47.000Z",
+            "modifyDate": "2022-03-17T05:47:40.000Z",
+            "isDeleted": 0,
+            "defaultLocationName": "Respite",
+            "defaultLocationId": 3,
+            "ndisRego": 4050000001,
+            "isValidated": 1,
+            "financialContactId": 2,
+            "financialContactCompany": "Datix"
+        }
+    ]
+}
+401 - {"version": "2.2.2", "message":"Unauthorised"}
+500 - {"version": "2.2.2","message":"API name or method is not valid."}
+```
+
+
 ### POST /participant
 This function adds a list of participants to the participant table and returns the last participantId.
 Request sample:
@@ -108,8 +166,8 @@ var options = {
     headers: 
         headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         },
     body:  
         {"participants":[
@@ -148,8 +206,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/participant',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         },
     body: 
         {"participantId": 10
@@ -175,19 +233,35 @@ Response body sample:
 ```
 
 ## Plans and ServiceBookings APIs
-### GET /planByNdisNumber/{ndisNumber}
+### GET /plan/{ndisNumber}
+This endpoint returns the NDIS plan of the given NDIS Number.
+
+Sample request:
+
+``` bash
+var options = { 
+    method: 'get',
+    url: 'https://stage-api.quickclaim.io/public/plan/430000001',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+```
 ### GET /planByQr/{cardNumber}
 ### GET /planByParticipantId/{participantId}
 This endpoint returns ndis plans of the given participantId.
 Request sample:
+
 ``` bash
 var options = { 
     method: 'GET',
     url: 'https://api.quickclaim.io/public/planByParticipantId/12',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -226,8 +300,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/refreshAServiceBooking/26',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -279,8 +353,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/refreshParticipantServiceBooking/80',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -346,8 +420,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/serviceBooking',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -380,10 +454,7 @@ Response body sample:
             "modifyBy": null,
             "note": null,
             "isCancelled": 0
-        },
-        .
-        .
-        .
+        }
     ]
 }
 400 - {"version": "2.0.3","message":"Query to Database was not successful"}
@@ -398,8 +469,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/serviceBooking/12',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -441,8 +512,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/createServiceBooking',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
     body:
         { 
@@ -486,8 +557,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/serviceBookingForNdisNumber',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
     body:
         { 
@@ -531,8 +602,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/updateServiceBooking',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
     body:
         {     
@@ -567,8 +638,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/extendServiceBooking',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
     body:
         {     
@@ -603,8 +674,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/cancelServiceBooking/44',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 ```
@@ -652,8 +723,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/participantClaims/430000001',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -743,8 +814,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/planByQr/1234567891234567',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -790,8 +861,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/serviceBooking',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }
 };
 
@@ -863,8 +934,8 @@ var options = {
     url: 'https://api.quickclaim.io/public/ndisCatalogue',
     headers: 
         { 
-          org-id: 19,
-          x-api-key: "YOUR TOKEN"
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
         }    
 };
 
