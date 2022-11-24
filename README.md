@@ -1032,22 +1032,18 @@ The general API to get all the Invoice transactions is as below.
 ### GET /transaction
 Definition above under NDIS Claims section.
 ### GET /cancelledInvoices
-This endpoint returns all the cancelled invoices. It can get startDate and endDate as path parameters and return only the cancelled invoices in that duration. (this function is now live in prod)
-This function is authorised by api-key now, but the token and user-id should be set too, otherwise an error will be raised. If you don't want to authorise by token, set the token and user-id with an invalid text.
+This endpoint returns all the cancelled invoices. It can get startDate and endDate as path parameters and return only the cancelled invoices in that duration.
 
 Request sample:
 ``` bash
-var options = {
-    method: 'get',
-    url: 'https://test-api.quickclaim.io/service-in-out/getCancelledInvoices',
-    headers:
-        {
-          org-id: 19,
-          x-api-key: "erUHIUHjkbsdjbksdfjhdsaijdh",
-          token: "test"
-          user-id: "test"
-        },
-
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/cancelledInvoices',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
 };
 
 ```
