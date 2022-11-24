@@ -733,6 +733,51 @@ Response body sample:
 400 - {"version": "2.0.3","message":"There is no access token from NDIS."}
 400 - {"version": "2.0.3","NDIS call to get participant plan failed"}
 ```
+### POST /serviceBooking
+This endpoint creates a ServiceBooking on NDIS. It gets all required information for creating a ServiceBooking in the body as shown below.
+
+``` bash
+var options = { 
+    method: 'POST',
+    url: 'https://api.quickclaim.io/public/createServiceBooking',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+    body:
+        { 
+            "participantId" : 79,
+            "planId":  12345,
+            "startDate": "2021-09-21",
+            "endDate": "2021-09-25",    
+            "categoryCode": "04",
+            "supportItem": "04_153_0104_6_1",
+            "rate": 7.00,
+            "quantity": 8.00,
+            "note": "This is a new note."
+        }
+};
+
+```
+Response body sample:
+``` bash
+200 - {
+    "version": "2.0.3",
+    "data": {
+        "serviceBookingNumber": "1234567"
+    }
+}
+400 - {"version": "2.0.3","message":"Service info should be provided in body."}
+422 - {"version": "2.0.3","message":"Category Code is invalid"}
+404 - {"version": "2.0.3","message":"There is not any information for the provided planId, participantId and org-id in plan table."}
+404 - {"version": "2.0.3","message":"There is not any information for the provided participantId and org-id"}
+404 - {"version": "2.0.3","message":"There is not any information for the provided ndis-rego and org-id"}
+400 - {"version": "2.0.3","message":"There is no access token from NDIS."}
+422 - {"version": "2.0.3","Create Service Booking failed, please double check the entry parameters."}
+400 - {"version": "2.0.3","QuickClaim Database write was not successful"}
+
+```
 ### POST /serviceBookingForNdisNumber
 This endpoint creates a ServiceBooking on NDIS. It gets all required information for creating a ServiceBooking in the body as shown below.
 
