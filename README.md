@@ -250,6 +250,44 @@ var options = {
 };
 ```
 ### GET /planByQr/{cardNumber}
+This endpoint returns ndis plans of the given cardNumber.
+Request sample:
+
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/planByQr/32424',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response samples :
+``` bash
+200 - {     "version": "2.0.3",
+        "data": [
+            {
+                "planId": 2,
+                "participantId": 79,
+                "orgId": 19,
+                "planNumber": 1234567,
+                "startDate": "2020-08-22",
+                "endDate": "2021-08-23",
+                "ndisRefreshDate": "2021-02-25T23:51:27.000Z",
+                "rego": 4300000001
+            }
+        ]   
+    }
+    
+422 - {"version": "2.0.3","message":"ndisNumber is not valid"}
+400 - {"version": "2.0.3","message":"There is no data for this card number in database."}
+400 - {"version": "2.0.3","message":"There is no access token from NDIS"}
+400 - {"version": "2.0.3","message":"NDIS call to get participant plan failed"}
+500 - {"version": "2.0.3","message":"API name or method is not valid."}
+```
 ### GET /planByParticipantId/{participantId}
 This endpoint returns ndis plans of the given participantId.
 Request sample:
