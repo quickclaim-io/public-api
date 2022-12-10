@@ -164,28 +164,18 @@ var options = {
     method: 'POST',
     url: 'https://api.quickclaim.io/public/participant',
     headers: 
-        headers: 
         { 
           org-id: 101,
           x-api-key: XXXXXXXXXXXXXXX
         },
     body:  
-        {"participants":[
-            {
-            "firstName": "Michael",
-            "lastName":"Jackson",
-            "dob": "1985-01-01",
-            "clientNumber" :  "123456",
-            "ndisNumber": "430000001"
-            },
-            {
-            "firstName": "Chris",
-            "lastName":"Ronaldo",
-            "dob": "2020-01-01",
-            "clientNumber" :  "456",
-            "ndisNumber": "430000002"
-            }
-    ]} 
+       {
+        "ndisNumber": 430278333,
+        "lastName": "Gerami test",
+        "dob": "2005-01-01",
+        "clientNumber" :  "45232326",
+        "firstName":"Hossein"
+       }
 };
 
 ```
