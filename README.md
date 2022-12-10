@@ -164,28 +164,18 @@ var options = {
     method: 'POST',
     url: 'https://api.quickclaim.io/public/participant',
     headers: 
-        headers: 
         { 
           org-id: 101,
           x-api-key: XXXXXXXXXXXXXXX
         },
     body:  
-        {"participants":[
-            {
-            "firstName": "Michael",
-            "lastName":"Jackson",
-            "dob": "1985-01-01",
-            "clientNumber" :  "123456",
-            "ndisNumber": "430000001"
-            },
-            {
-            "firstName": "Chris",
-            "lastName":"Ronaldo",
-            "dob": "2020-01-01",
-            "clientNumber" :  "456",
-            "ndisNumber": "430000002"
-            }
-    ]} 
+       {
+        "ndisNumber": 430278333,
+        "lastName": "Gerami test",
+        "dob": "2005-01-01",
+        "clientNumber" :  "45232326",
+        "firstName":"Hossein"
+       }
 };
 
 ```
@@ -250,6 +240,44 @@ var options = {
 };
 ```
 ### GET /planByQr/{cardNumber}
+This endpoint returns ndis plans of the given cardNumber.
+Request sample:
+
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/planByQr/32424',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response samples :
+``` bash
+200 - {     "version": "2.0.3",
+        "data": [
+            {
+                "planId": 2,
+                "participantId": 79,
+                "orgId": 19,
+                "planNumber": 1234567,
+                "startDate": "2020-08-22",
+                "endDate": "2021-08-23",
+                "ndisRefreshDate": "2021-02-25T23:51:27.000Z",
+                "rego": 4300000001
+            }
+        ]   
+    }
+    
+422 - {"version": "2.0.3","message":"ndisNumber is not valid"}
+400 - {"version": "2.0.3","message":"There is no data for this card number in database."}
+400 - {"version": "2.0.3","message":"There is no access token from NDIS"}
+400 - {"version": "2.0.3","message":"NDIS call to get participant plan failed"}
+500 - {"version": "2.0.3","message":"API name or method is not valid."}
+```
 ### GET /planByParticipantId/{participantId}
 This endpoint returns ndis plans of the given participantId.
 Request sample:
@@ -342,7 +370,139 @@ Response samples :
 500 - {"version": "2.0.3","message":"API name or method is not valid."}
 ```
 ### GET /serviceBookingByNdisNumber/{ndisNumber}
+This endpoint gets all ServiceBookings of the given ndisNumber.
+Request sample:
+
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/serviceBookingLive/431234567',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response samples :
+``` bash
+200 - {
+    "version": "2.0.3",
+    "data": [
+        {
+            "sbHeaderId": "SBH-35",
+            "serviceBookingId": 44,
+            "serviceBookingNumber": 50041762,
+            "regoId": 1,
+            "ndisRego": 4050000201,
+            "orgId": 19,
+            "participantId": 79,
+            "participantName": "Jack Bairstow",
+            "ndisNumber": "430278966",
+            "clientNumber": "1234",
+            "planNumber": 1080277,
+            "bookingType": "Standard Booking",
+            "status": "Approved",
+            "startDate": "2022-07-14",
+            "endDate": "2022-08-14",
+            "note": "",
+            "supportCategoryApi": "CB_DAILY_ACTIVITY",
+            "supportCategory": "15-Improved daily living skills",
+            "supportItem": "",
+            "supportItemName": "",
+            "unit": 1,
+            "rate": 1750,
+            "amount": 1750,
+            "remaining": 1750,
+            "isUsed": 0,
+            "daysLeft": -102,
+            "isOld": 0,
+            "createDate": "2022-11-18T03:15:53.000Z",
+            "createBy": null,
+            "modifyDate": "2022-11-24T10:00:53.000Z",
+            "modifyBy": "SYSTEM",
+            "ndisRefreshDate": "2022-11-24T10:00:53.000Z",
+            "isDeleted": 0,
+            "isCancelled": 0,
+            "refresh": "4 m"
+        }
+        .
+        .
+        .
+    }
+422 - {"version": "2.0.3","message":"ndisNumber is not valid"}
+422 - {"version": "2.0.3","message":"Your organisation registration is not complete."}
+400 - {"version": "2.0.3","message":"Refresh all service booking was not successful."}
+500 - {"version": "2.0.3","message":"API name or method is not valid."}
 ### GET /serviceBookingByQr/{cardNumber}
+This endpoint gets all ServiceBookings of the given cardNumber.
+Request sample:
+
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/serviceBookingByQr/24564565435',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response samples :
+``` bash
+200 - {
+    "version": "2.0.3",
+    "data": [
+        {
+            "sbHeaderId": "SBH-35",
+            "serviceBookingId": 44,
+            "serviceBookingNumber": 50041762,
+            "regoId": 1,
+            "ndisRego": 4050000201,
+            "orgId": 19,
+            "participantId": 79,
+            "participantName": "Jack Bairstow",
+            "ndisNumber": "430278966",
+            "clientNumber": "1234",
+            "planNumber": 1080277,
+            "bookingType": "Standard Booking",
+            "status": "Approved",
+            "startDate": "2022-07-14",
+            "endDate": "2022-08-14",
+            "note": "",
+            "supportCategoryApi": "CB_DAILY_ACTIVITY",
+            "supportCategory": "15-Improved daily living skills",
+            "supportItem": "",
+            "supportItemName": "",
+            "unit": 1,
+            "rate": 1750,
+            "amount": 1750,
+            "remaining": 1750,
+            "isUsed": 0,
+            "daysLeft": -102,
+            "isOld": 0,
+            "createDate": "2022-11-18T03:15:53.000Z",
+            "createBy": null,
+            "modifyDate": "2022-11-24T10:00:53.000Z",
+            "modifyBy": "SYSTEM",
+            "ndisRefreshDate": "2022-11-24T10:00:53.000Z",
+            "isDeleted": 0,
+            "isCancelled": 0,
+            "refresh": "4 m"
+        }
+        .
+        .
+        .
+    }
+422 - {"version": "2.0.3","message":"Your organisation registration is not complete."}
+422 - {"version": "2.0.3","message":"Refresh all service booking was not successful."}
+400 - {"version": "2.0.3","message":"There is no data for this card number in database."}
+400 - {"version": "2.0.3","message":"ndisNumber is not valid"}
+500 - {"version": "2.0.3","message":"API name or method is not valid."}
+```
 ### GET /refreshParticipantServiceBooking/{participantId}
 This endpoint calls NDIS and gets all ServiceBookings of the given participantId.
 Request sample:
@@ -502,6 +662,66 @@ Response body sample:
 }
 400 - {"version": "2.0.3","message":"Query to Database was not successful"}
 500 - {"version": "2.0.3","message":"API name or method is not valid."}
+```
+### GET /planBudgetPM
+This endpoint brings plans and their budget and budget details of the given ndisNumber.
+
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/planBudgetPM/431234567',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response body sample:
+``` bash
+200 - {
+    "version": "3.0.0",
+    "data": [
+        {
+            "planNumber": 1080277,
+            "startDate": "2020-03-26",
+            "endDate": "2023-03-26",
+            "planManagement": "ZCOR_PLAN",
+            "planManagementText": "Core Plan Managed",
+            "budget": [
+                {
+                    "supportType": "ZCOR",
+                    "supportTypeText": "Core",
+                    "approvedAmount": 1000.02,
+                    "allocatedAmount": 0,
+                    "spentAmount": 0,
+                    "remainingAmount": 1000.02,
+                    "budgetDetail": [
+                        {
+                            "supportCategoryAPI": "CONSUMABLES",
+                            "supportCategory": "Consumables",
+                            "supportItem": "01_003_0107_1_1",
+                            "approvedAmount": 1000.02,
+                            "allocatedAmount": 0,
+                            "spentAmount": 0,
+                            "remainingAmount": 1000.02,
+                            "quoteableItem": "true",
+                            "quoteApproved": "true",
+                            "inKind": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+422 - {"version": "2.0.3","message":"ndisNumber is not valid"}
+422 - {"version": "2.0.3","message":"Your organisation registration is not complete."}
+404 - {"version": "2.0.3","message":"To get NDIS Plan; lastname and date of birth are required.Please first update the participant information."}
+404 - {"version": "2.0.3","message":"Participant does not exist in the database."}
+400 - {"version": "2.0.3","message":"There is no access token from NDIS."}
+400 - {"version": "2.0.3","NDIS call to get participant plan failed"}
 ```
 ### POST /serviceBooking
 This endpoint creates a ServiceBooking on NDIS. It gets all required information for creating a ServiceBooking in the body as shown below.
@@ -801,7 +1021,46 @@ Based on the implemented **Workflows** and **Action Plans** for Invoicing differ
 The general API to get all the Invoice transactions is as below. 
 ### GET /transaction
 Definition above under NDIS Claims section.
+### GET /cancelledInvoices
+This endpoint returns all the cancelled invoices. It can get startDate and endDate as path parameters and return only the cancelled invoices in that duration.
 
+Request sample:
+``` bash
+var options = { 
+    method: 'GET',
+    url: 'https://api.quickclaim.io/public/cancelledInvoices',
+    headers: 
+        { 
+          org-id: 101,
+          x-api-key: XXXXXXXXXXXXXXX
+        }
+};
+
+```
+Response samples :
+``` bash
+200 - {
+    "version": "2.0.4",
+    "data": [
+        {
+            "id": "818",
+            "Customer_Ref_ID": "215653_0",
+            "createDate": "2020-08-05T12:10:55.000Z",
+            "invoiceNumber": "6000339",
+            "cancellationReason": null
+        },
+        .
+        .
+        .
+    ]
+}
+422-{"version": "2.0.4", "message":"The input start date is not in a valid date format that the service can support."}
+422-{"version": "2.0.4", "message":"The input end date is not in a valid date format that the service can support."}
+422-{"version": "2.0.4", "message":"The input start date is after the input end date."}
+400 - {"version": "2.0.3","message":"Database connection or query was not successful."}
+400 - {"version": "2.0.3","message":"There is not any information for the provided orgId."}
+
+```
 ## QR codes
 To make NDIS interactions faster, more secure and manageable we have adopted QR Payment technology and implemented it on top the NDIS APIs. These APIs are using QR code in their call. QR Codes are either a **cardNumber** or a **token**. Below is the API set to issue and scan QR codes.
 ### GET /plan/{cardNumber}
